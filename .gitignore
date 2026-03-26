@@ -1,0 +1,12 @@
+# Secret environment files
+.env
+
+# Django project folder
+myproject/
+media/
+__pycache__/
+
+*.pyc
+*.pyo
+
+db.sqlite3

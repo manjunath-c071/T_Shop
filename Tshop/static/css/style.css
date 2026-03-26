@@ -1,0 +1,65 @@
+/* Remove all default spacing */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove navbar gap */
+.navbar {
+    margin-bottom: 0 !important;
+}
+
+/* Remove container padding */
+.container-fluid {
+    padding: 0 !important;
+}
+
+/* Remove any extra spacing */
+#carouselExampleCaptions {
+    margin: 0;
+    padding: 0;
+}
+
+/* Carousel height */
+#carouselExampleCaptions .carousel-inner {
+    height: 500px;
+}
+
+/* Slide */
+#carouselExampleCaptions .carousel-item {
+    height: 500px;
+}
+
+/* IMAGE FIX (NO GAP + NO CUT) */
+#carouselExampleCaptions .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* 🔥 no cutting */
+    background-color: black; /* fills sides */
+}
+
+/* Caption */
+.carousel-caption {
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Prevent navbar overlap (if fixed-top navbar) */
+body {
+    padding-top: 70px; /* adjust to your navbar height */
+}
+
+/* Better image rendering */
+.object-fit-cover {
+    object-fit: cover;
+}
+
+/* smoother card hover */
+.card {
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
