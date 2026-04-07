@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}
+Products
+{% endblock%}
+
+{% block content%}
+
+<div class="container-fluid pt-5 mt-3">
+
+    <div class="d-flex justify-content-between align-item-center mb-4">
+        <h3 class="fw-bold">Products</h3>
+        {% if user.is_staff %}
+        <a href="{% url 'add_product' %}" class="btn add-button"><i class="bi bi-file-earmark-plus-fill"></i></a>
+        {% endif %}
+    </div>
+
+{% include 'products/includes/productSection.html' %}
+
+</div>
+
+{% endblock%}

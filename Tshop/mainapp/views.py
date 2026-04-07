@@ -47,4 +47,23 @@ from django.views.generic import (
 class CarouselImageList(ListView):
     template_name  = 'mainapp/carousel/carousel_list.html'
     model = CarouselImage
-    context_object_name = 'carousel_images'                                                                                                                                            
+    context_object_name = 'carousel_images'       
+
+
+class AddCarouselImage(CreateView):
+    model = CarouselImage
+    template_name = 'mainapp/carousel/add_carousel.html'
+    fields = '__all__'
+    success_url = '/'
+    
+class UpdateCarouselImage(UpdateView):
+    model = CarouselImage
+    template_name = 'mainapp/carousel/edit_carousel.html'
+    fields = '__all__'
+    success_url = '/'
+    
+
+class DeleteCarouselImage(DeleteView):
+    model = CarouselImage
+    template_name = 'mainapp/carousel/del_carousel.html'
+    success_url = '/'
