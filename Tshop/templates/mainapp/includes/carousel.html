@@ -1,47 +1,74 @@
-<div id="carouselExampleCaptions" class="carousel slide">
+{% if carousel_images %}
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  
+  <!-- Indicators -->
   <div class="carousel-indicators">
     {% for carousel_image in carousel_images %}
     <button
       type="button"
       data-bs-target="#carouselExampleCaptions"
-      data-bs-slide-to="{{forloop.counter | add:'-1'}}"
-      class="{% if forloop.counter == 1 %}active{% endif %}"
-      aria-current="{%if forloop.counter == 1 %}true{% endif %}"
-      aria-label="Slide{{forloop.counter}}"
+      data-bs-slide-to="{{ forloop.counter0 }}"
+      class="{% if forloop.first %}active{% endif %}"
+      aria-current="{% if forloop.first %}true{% endif %}"
+      aria-label="Slide {{ forloop.counter }}"
     ></button>
     {% endfor %}
   </div>
-  <div class="carousel-inner ratio ratio-16x9">
+
+  <!-- Slides -->
+  <div class="carousel-inner ratio ratio- 8x9">
     {% for carousel_image in carousel_images %}
-    <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
-      <img
-        src="{{ carousel_image.image.url }}"
-        class="d-block w-100 object-fit-cover"
-        alt="{{ carousel_image.title }}"
-      />
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      {% if carousel_image.is_video %}
+        <video
+          class="d-block w-100 object-fit-cover"
+          autoplay
+          muted
+          loop
+          playsinline
+        >
+          <source src="{{ carousel_image.file.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {% else %}
+        <img
+          src="{{ carousel_image.file.url }}"
+          class="d-block w-100 object-fit-cover"
+          alt="{{ carousel_image.title }}"
+        />
+      {% endif %}
+
       <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
-        <h5>{{ carousel_image.title }}</h5>
-        <p>{{ carousel_image.description }}</p>
+        <h5 class="mb-1">{{ carousel_image.title }}</h5>
+        <p class="small mb-0">{{ carousel_image.caption }}</p>
       </div>
     </div>
     {% endfor %}
   </div>
+
+  <!-- Controls -->
   <button
     class="carousel-control-prev"
     type="button"
     data-bs-target="#carouselExampleCaptions"
     data-bs-slide="prev"
   >
-    <span class="carousel-control-prev-icon"></span>
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
+
   <button
     class="carousel-control-next"
     type="button"
     data-bs-target="#carouselExampleCaptions"
     data-bs-slide="next"
   >
-    <span class="carousel-control-next-icon"></span>
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+{% else %}
+<div class="alert alert-secondary text-center py-5">
+  No carousel media available. Upload active carousel files in the admin.
+</div>
+{% endif %}

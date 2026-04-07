@@ -15,25 +15,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 
-
-#adding these imports to support media hosting in development server
+# Media support (for images & videos)
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('mainapp.urls')),
-    path('products/',include('products.urls')),
 
+    # Main app
+    path('', include('mainapp.urls')),
+
+    # Products app
+    path('products/', include('products.urls')),
+
+    # Authentication (custom + Django built-in)
     path('accounts/', include('authentication.urls')),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
-
-
-if settings.DEBUG == True:
-    urlpatterns += static(settings.MEDIA_URL, 
-    document_root=settings.MEDIA_ROOT)
-
+# Serve media files (images/videos) during development
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )

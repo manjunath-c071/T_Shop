@@ -13,7 +13,7 @@
 }
 
 .card{
-    transition: all 0.2s ease-in-out;
+    transition: all 5.0s ease-in-out;
 }
 
 .card:hover {

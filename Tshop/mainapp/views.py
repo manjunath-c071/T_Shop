@@ -5,8 +5,8 @@ from .models import CarouselImage
 def homeView(request):
     template = 'mainapp/home.html'
     context ={
-        # Get all active carousel images from the database and pass them to the template
-        'carousel_images': CarouselImage.objects.filter(is_active=True)
+        # Get all active carousel images that have an uploaded file
+        'carousel_images': CarouselImage.objects.filter(is_active=True).exclude(file='').exclude(file__isnull=True)
     }
 
     return render(
