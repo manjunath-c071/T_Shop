@@ -1,50 +1,46 @@
-from django import forms
+from django import forms 
 
 from .models import Product, ProductImage
 
 class ProductForm(forms.ModelForm):
     class Meta:
-        model = Product
-        fields = ['title','desc','category','thumbnail','price','stock']
+        model = Product 
+        fields = ['title', 'desc','category', 'thumbnail', 'price', 'stock']
         widgets = {
-            'title' : forms.TextInput(attrs = {
-                'class' : 'form-control w-50 align-item-center',
+            'title' : forms.TextInput(attrs={
+                'class' : 'form-control',
                 'placeholder' : 'Product Title'
             }),
-            'desc' : forms.Textarea(attrs = {
-                'class' : 'form-control w-50',
+            'desc' : forms.Textarea(attrs={
+                'class' : 'form-control',
                 'placeholder' : 'Description',
-                'row' : '3'
+                'rows' : 4
             }),
-            'thumbnail' : forms.ClearableFileInput(attrs = {
-                'class' : 'form-control w-50',
-                
-            }),
-            'price' : forms.TextInput(attrs = {
-                'class' : 'form-control w-50',
+            'price' : forms.NumberInput(attrs={
+                'class' : 'form-control',
                 'placeholder' : 'Price'
             }),
-            'stock' : forms.TextInput(attrs = {
-                'class' : 'form-control w-50',
+            'stock' : forms.NumberInput(attrs={
+                'class' : 'form-control',
                 'placeholder' : 'Stock'
             }),
+            'thumbnail' : forms.ClearableFileInput(attrs={
+                'class' : 'form-control'
+            })
         }
-
 
 class ProductImageForm(forms.ModelForm):
     class Meta:
-        model = ProductImage
+        model = ProductImage 
         fields = ['image', 'caption']
 
         widgets = {
-            'image' : forms.ClearableFileInput(attrs = {
+            'image' : forms.ClearableFileInput(attrs={
                 'class' : 'form-control',
-                'placeholde' : 'Image'
+                'placeholder' : 'Image'
             }),
-            'caption' : forms.TextInput(attrs = {
+            'caption' : forms.TextInput(attrs={
                 'class' : 'form-control',
-                'placeholde' : 'Image Caption',
-                
+                'placeholder' : 'Image Caption',
             })
-
         }

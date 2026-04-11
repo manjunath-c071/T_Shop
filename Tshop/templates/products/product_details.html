@@ -1,17 +1,14 @@
 {% extends 'base/base.html' %}
 
-
-
 {% block title %}
-
 {{ product.title }}
-
 {% endblock %}
-
 
 {% block content %}
 
-<section id="product-detail-root" class="product-detail container py-5">
+<section id="product-detail-root" class="product-detail container py-5" 
+    data-add-to-cart-url="{% url 'add_to_cart' %}"
+    data-csrf-token="{{csrf_token}}">
 
     <div class="row g-5 align-items-start">
 
@@ -43,11 +40,12 @@
                 <!-- Actions -->
                 <div class="product-detail__actions d-flex gap-3 mt-4">
 
-                    <a href="#" class="btn btn-primary product-detail__cart-btn">
+                    <button class="btn btn-primary product-detail__cart-btn add-to-cart"
+                        data-product-id='{{product.id}}'>
                         Add to Cart
-                    </a>
+                    </button>
 
-                    <a href="#" class="btn btn-outline-warning product-detail__wishlist-btn">
+                    <a href="#" class="btn btn-outline-secondary product-detail__wishlist-btn">
                         Wishlist
                     </a>
 
@@ -64,17 +62,12 @@
 {% if user.is_staff %}
 <section>
     <h2>Add Product Images</h2>
-
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
-
         {% include 'base/includes/basicFormField.html' %}
-
         {% endfor %}
-
         <button type="submit" class="btn btn-primary">Save</button>
-
     </form>
 </section>
 {% endif %}

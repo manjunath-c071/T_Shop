@@ -1,20 +1,5 @@
-
-<div class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
-    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px; border-radius: 15px;">
-        
-        <h3 class="text-center mb-4">Fill Details</h3>
-
-        <div class="mb-3">
-            <label class="form-label fw-semibold">
-                {{ field.label }}
-            </label>
-
-            {{ field }}
-
-            <div class="text-danger small mt-1">
-                {{ field.errors|striptags }}
-            </div>
-        </div>
-
-    </div>
+<div class="form-field mb-4">
+  <label class="form-label"> {{ field.label }} </label>
+  {{field}}
+  <div class="text-danger small">{{ field.errors | striptags }}</div>
 </div>

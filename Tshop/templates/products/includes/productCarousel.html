@@ -1,4 +1,4 @@
-
+<!-- PRODUCT CAROUSEL -->
 <div id="productCarousel"
      class="carousel slide product-carousel"
      data-bs-ride="carousel"
@@ -14,7 +14,7 @@
 
         <!-- IMAGE -->
         <img src="{{ img.image.url }}"
-             class="product-carousel__img "
+             class="product-carousel__img"
              data-bs-toggle="modal"
              data-bs-target="#imageModal{{ img.pk }}">
 
@@ -32,7 +32,8 @@
           </a>
 
         </div>
- <!-- CAPTION -->
+
+        <!-- CAPTION -->
         {% if img.caption %}
         <div class="product-carousel__caption">
           {{ img.caption }}
@@ -61,7 +62,8 @@
         </div>
       </div>
     </div>
-{% endfor %}
+
+    {% endfor %}
 
   </div>
 
@@ -89,9 +91,10 @@
          data-bs-target="#productCarousel"
          data-bs-slide-to="{{ forloop.counter0 }}"
          class="product-thumb {% if forloop.first %}active-thumb{% endif %}">
+  {% empty %}
+  <p>No images uploaded yet!</p>
   {% endfor %}
 </div>
-
 
 {% block extra_js %}
 <script>

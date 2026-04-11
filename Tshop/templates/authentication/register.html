@@ -1,24 +1,25 @@
 {% extends 'base/base.html' %}
-
-{% block title %}
-Register
-{% endblock %}
-
-
+{% block title %} 
+Register 
+{% endblock %} 
 {% block content %}
-<section>
-    <div class="card">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in form %}
-                {% include 'base/includes/basicFormField.html' %}
-            {% endfor %}
-            <button type="submit" class="btn btn-primary">Create Account</button>
-             <p class="text-center mt-3 mb-0">
-                Already have an account ? Sign in
-                <a href="{% url 'signin' %}">here</a>
-            </p>
-        </form>
+<section class="page-section auth-page">
+  <div class="auth-card card shadow-sm">
+    <div class="card-body p-4">
+      <h2 class="h4 mb-4">Create your account</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {% for field in form %} 
+        {% include 'base/includes/basicFormField.html' %} 
+        {% endfor %}
+        <button type="submit" class="btn btn-primary w-100">
+          Create Account
+        </button>
+        <p class="text-center mt-4 mb-0">
+          Already have an account? <a href="{% url 'signin' %}">Sign in</a>
+        </p>
+      </form>
     </div>
+  </div>
 </section>
 {% endblock %}

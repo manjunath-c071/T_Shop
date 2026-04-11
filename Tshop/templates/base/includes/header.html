@@ -1,9 +1,9 @@
-<header class="fixed-top">
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme='dark'>
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home_page' %}">T Shop</a>
+<header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand site-brand" href="{% url 'home_page' %}">Zenova</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                data-bs-target="#navbarSupportedContent" aria-controls="#navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -12,9 +12,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'home_page' %}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -46,9 +44,6 @@
                     </li>
                     {% endif %}
                     
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -60,6 +55,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'view_cart' %}">My Cart</a></li>
+                            <li><a class = 'dropdown-item' href="/">Past Orders</a></li>
                             <li>
                                 <form action="{% url 'logout' %}" method="post">
                                     {% csrf_token %}

@@ -1,6 +1,9 @@
 {% if carousel_images %}
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-  
+<div
+  id="carouselExampleCaptions"
+  class="carousel slide"
+  data-bs-ride="carousel"
+>
   <!-- Indicators -->
   <div class="carousel-indicators">
     {% for carousel_image in carousel_images %}
@@ -16,29 +19,24 @@
   </div>
 
   <!-- Slides -->
-  <div class="carousel-inner ratio ratio- 8x9">
+  <div class="carousel-inner">
     {% for carousel_image in carousel_images %}
     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-      {% if carousel_image.is_video %}
-        <video
-          class="d-block w-100 object-fit-cover"
-          autoplay
-          muted
-          loop
-          playsinline
-        >
-          <source src="{{ carousel_image.file.url }}" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+      {% if carousel_image.image %}
+      <img
+        src="{{ carousel_image.image.url }}"
+        class="d-block w-100 object-fit-cover"
+        alt="{{ carousel_image.title }}"
+      />
       {% else %}
-        <img
-          src="{{ carousel_image.file.url }}"
-          class="d-block w-100 object-fit-cover"
-          alt="{{ carousel_image.title }}"
-        />
+      <div class="carousel-no-image text-center py-5 bg-light">
+        <p class="mb-0 text-muted">No Image</p>
+      </div>
       {% endif %}
 
-      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+      <div
+        class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2"
+      >
         <h5 class="mb-1">{{ carousel_image.title }}</h5>
         <p class="small mb-0">{{ carousel_image.caption }}</p>
       </div>

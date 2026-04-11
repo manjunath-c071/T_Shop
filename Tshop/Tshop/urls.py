@@ -33,6 +33,15 @@ urlpatterns = [
     # Authentication (custom + Django built-in)
     path('accounts/', include('authentication.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+
+    # Cart app
+    path('cart/', include('cart.urls')),
+
+    # Orders app
+    path('orders/', include('orders.urls')),
+
+    # Payments app
+    path('payments/', include('payments.urls')),
 ]
 
 # Serve media files (images/videos) during development
