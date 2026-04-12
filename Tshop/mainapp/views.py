@@ -4,8 +4,10 @@ from .models import CarouselImage
 # Views.py handles request-response
 # It also handles the DML and DQL operations required for the same.
 
+from products.models import Product, Brand
+from accessories.models import Accessory
+
 # Create your views here.
-from products.models import Product
 
 def homeView(request):
     template = 'mainapp/home.html'
@@ -13,6 +15,8 @@ def homeView(request):
         # This will be an array of all active carousel image objects mapped from DB
         'carousel_images' : CarouselImage.objects.filter(is_active = True),
         'products' : Product.objects.all(),
+        'brands': Brand.objects.filter(product__isnull=False).distinct(),  # Get brands that have at least one product
+        'accessories': Accessory.objects.all()
      
         }
     return render(

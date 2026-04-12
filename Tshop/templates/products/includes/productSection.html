@@ -1,12 +1,75 @@
-<div class="row g-4" id="product-section" 
-data-add-to-cart-url = "{% url 'add_to_cart' %}"
-data-csrf-token = "{{csrf_token}}"
->
-    {% for product in products %}
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        {% include 'products/includes/productCard.html' %}
+{% for brand in brands %}
+    <h4 class="mt-4">{{ brand.name }}</h4>
+
+    <div class="row">
+        {% for product in products %}
+            {% if product.brand == brand %}
+
+            <div class="col-6 col-md-3 col-lg-2 mb-3">
+                <div class="card h-100">
+
+                    <img src="{{ product.thumbnail.url }}" class="card-img-top" style="height:140px; object-fit:cover; width:100%;">
+
+                    <div class="card-body">
+                        <h6>{{ product.title }}</h6>
+                        <p>₹{{ product.price }}</p>
+                        <small>Stock: {{ product.stock }}</small>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="{% url 'prod_details' product.id %}" class="btn btn-primary btn-sm w-100 mb-2">
+                            View
+                        </a>
+                        {% if user.is_staff %}
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'edit_product' product.id %}" class="btn btn-warning btn-sm w-50">Edit</a>
+                            <a href="{% url 'del_product' product.id %}" class="btn btn-danger btn-sm w-50">Delete</a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            {% endif %}
+        {% endfor %}
     </div>
-    {% empty %}
-    <p class="text-muted text-center">No products added yet.</p>
+
+{% endfor %}
+
+<!-- ===== ACCESSORIES — outside brands loop ===== -->
+{% if accessories %}
+<h4 class="mt-5">Accessories</h4>
+<div class="row">
+    {% for accessory in accessories %}
+    <div class="col-6 col-md-3 col-lg-2 mb-3">
+        <div class="card h-100">
+
+            <img src="{{ accessory.thumbnail.url }}"
+                 class="card-img-top"
+                 style="height:140px; object-fit:cover; width:100%;">
+
+            <div class="card-body">
+                <h6>{{ accessory.name }}</h6>
+                <p>₹{{ accessory.price }}</p>
+                <small>Stock: {{ accessory.stock }}</small>
+            </div>
+
+            <div class="card-footer">
+                <a href="{% url 'accessory_detail' accessory.pk %}"
+                   class="btn btn-primary btn-sm w-100 mb-2">View</a>
+                {% if user.is_staff %}
+                <div class="d-flex gap-2">
+                    <a href="{% url 'accessory_edit' accessory.pk %}"
+                       class="btn btn-warning btn-sm w-50">Edit</a>
+                    <a href="{% url 'accessory_delete' accessory.pk %}"
+                       class="btn btn-danger btn-sm w-50">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
     {% endfor %}
 </div>
+{% endif %}

@@ -30,6 +30,9 @@ urlpatterns = [
     # Products app
     path('products/', include('products.urls')),
 
+    #accessories app
+    path('accessories/', include('accessories.urls')),
+
     # Authentication (custom + Django built-in)
     path('accounts/', include('authentication.urls')),
     path('accounts/', include('django.contrib.auth.urls')),

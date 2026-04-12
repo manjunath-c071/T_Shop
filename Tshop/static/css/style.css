@@ -20,9 +20,9 @@
   --grad-card:    linear-gradient(145deg, #1c1c27 0%, #13131a 100%);
 
   /* Text */
-  --text:         #f0f0ff;
-  --text-muted:   #8888aa;
-  --text-dim:     #55556a;
+  --text:          #f0f0ff;
+  --text-muted:    #9999bb;
+  --text-dim:      #55556a;
 
   /* Borders */
   --border:       rgba(255,255,255,0.06);
@@ -227,7 +227,7 @@ a:hover { color: var(--accent-1); }
 .card {
   background: var(--grad-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);   /* smaller corners */
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
@@ -237,8 +237,13 @@ a:hover { color: var(--accent-1); }
   box-shadow: var(--shadow-glow), var(--shadow-card);
 }
 
-.card-body { padding: 1.75rem; }
+.card-body { padding: 0.85rem; }
 
+.card-footer {
+  background: transparent !important;
+  border-top: 1px solid var(--border);
+  padding: 0.65rem 0.85rem;
+}
 /* ===== FORMS ===== */
 /* .form-label {
   display: block;
@@ -302,7 +307,7 @@ input[type='file'] {
   
   /* 🔥 IMPORTANT FIX */
   color: #ffffff !important;
-  -webkit-text-fill-color: #adef05 !important;
+  -webkit-text-fill-color: #ffffff !important;
 
   font-family: var(--font-body);
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -428,6 +433,13 @@ textarea {
   transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
   position: relative;
 }
+/* ===== CARD TEXT WHITE FIX ===== */
+.card-body h6,
+.card-body p,
+.card-body small {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
 
 /* Colorful top edge accent per card (cycles via nth-child) */
 .product-card::before {
@@ -519,7 +531,7 @@ textarea {
   margin-bottom: 1rem;
   background: var(--grad-cool);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: white;
   background-clip: text;
 }
 
@@ -590,7 +602,7 @@ textarea {
   margin-bottom: 1rem;
   background: var(--grad-primary);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: white;
   background-clip: text;
 }
 
@@ -600,7 +612,7 @@ textarea {
   font-weight: 700;
   background: var(--grad-cool);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: white;
   background-clip: text;
   margin-bottom: 1.25rem;
 }

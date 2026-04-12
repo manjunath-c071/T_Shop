@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Delete {{ accessory.name }}{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+  <div class="container">
+    <div class="auth-card p-4 p-md-5 text-center" style="max-width:480px;">
+
+      <!-- Warning icon -->
+      <div style="width:64px; height:64px; border-radius:50%; background:rgba(255,107,107,0.12); border:1px solid rgba(255,107,107,0.3); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem;">
+        <i class="bi bi-trash" style="font-size:1.5rem; color:#ff6b6b;"></i>
+      </div>
+
+      <h2 style="color:#ffffff; font-family:'Syne',sans-serif; font-weight:700; margin-bottom:0.5rem;">
+        Delete Accessory?
+      </h2>
+
+      <p style="color:#9999bb; margin-bottom:0.5rem;">
+        You are about to permanently delete:
+      </p>
+
+      <p style="color:#ff3cac; font-weight:600; font-size:1.1rem; margin-bottom:2rem;">
+        {{ accessory.name }}
+      </p>
+
+      <p style="color:#9999bb; font-size:0.88rem; margin-bottom:2rem;">
+        This action cannot be undone.
+      </p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="d-flex gap-3 justify-content-center">
+          <button type="submit" class="btn btn-outline-danger px-4">
+            <i class="bi bi-trash me-1"></i> Yes, Delete
+          </button>
+          <a href="{% url 'accessory_list' %}" class="btn btn-primary px-4">
+            Cancel
+          </a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

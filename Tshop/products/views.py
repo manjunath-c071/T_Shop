@@ -1,80 +1,85 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic.edit import FormMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from accessories.models import Accessory
 
-# Create your views here.
+from .models import Product, ProductImage, Brand
 from . import forms
 
-from .models import Product
 
-# Class based generic views
-from django.views.generic import (
-    CreateView,
-    ListView, DetailView,
-    UpdateView, 
-    DeleteView
-)
-from django.urls import reverse_lazy, reverse
+# ✅ Admin Permission
+class AdminRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_staff
 
+
+# ✅ Product List (Brand-wise support)
 class ProductList(ListView):
     template_name = 'products/product_list.html'
     model = Product
-    context_object_name = 'products'  
+    context_object_name = 'products'
 
-from django.views.generic.edit import FormMixin
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['brands'] = Brand.objects.filter(product__isnull=False).distinct()
+        context['accessories'] = Accessory.objects.all()
+        return context
 
+
+# ✅ Product Detail
 class ProductDetailView(FormMixin, DetailView):
-    template_name = 'products/product_details.html'  
+    template_name = 'products/product_details.html'
     model = Product
     context_object_name = 'product'
     form_class = forms.ProductImageForm
 
     def get_success_url(self):
-        return reverse('prod_details', kwargs={'pk' : self.this_product.pk })
-    
-    # Handling the post requests coming to this view
-    # This is the method which handles addition of product images
+        return reverse('prod_details', kwargs={'pk': self.get_object().pk})
+
     def post(self, request, *args, **kwargs):
-        # fetching the particular object in context
-        self.this_product = self.get_object()
-        submitted_image_form = self.get_form()
+        product = self.get_object()
+        form = self.get_form()
 
-        if submitted_image_form.is_valid():
-            product_image = submitted_image_form.save(commit = False)
-            product_image.product = self.this_product
-            product_image.save()
+        if form.is_valid():
+            img = form.save(commit=False)
+            img.product = product
+            img.save()
             return redirect(self.get_success_url())
-            
 
-class AddProduct(CreateView):
+
+# ✅ CRUD
+class AddProduct(LoginRequiredMixin, AdminRequiredMixin, CreateView):
     model = Product
     template_name = 'products/add_product.html'
     form_class = forms.ProductForm
     success_url = reverse_lazy('product_list')
-    
-class UpdateProduct(UpdateView):
+
+
+class UpdateProduct(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     model = Product
     template_name = 'products/edit_product.html'
     form_class = forms.ProductForm
     success_url = reverse_lazy('product_list')
-    
-class DeleteProduct(DeleteView):
+
+
+class DeleteProduct(LoginRequiredMixin, AdminRequiredMixin, DeleteView):
     model = Product
     template_name = 'products/del_product.html'
     success_url = reverse_lazy('product_list')
-    context_object_name = 'product' 
+    context_object_name = 'product'
 
 
-# Rest of CRUD of product image
-
-from .models import ProductImage
-class UpdateProductImage(UpdateView):
+# Product Image CRUD
+class UpdateProductImage(LoginRequiredMixin, AdminRequiredMixin, UpdateView):
     model = ProductImage
     template_name = 'products/edit_product_image.html'
     form_class = forms.ProductImageForm
     success_url = reverse_lazy('product_list')
-    
-class DeleteProductImage(DeleteView):
+
+
+class DeleteProductImage(LoginRequiredMixin, AdminRequiredMixin, DeleteView):
     model = ProductImage
     template_name = 'products/del_product_image.html'
     success_url = reverse_lazy('product_list')
-    context_object_name = 'product_image'
-    

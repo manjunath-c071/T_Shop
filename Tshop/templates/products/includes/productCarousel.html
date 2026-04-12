@@ -13,12 +13,19 @@
       <div class="product-carousel__wrapper">
 
         <!-- IMAGE -->
-        <img src="{{ img.image.url }}"
-             class="product-carousel__img"
-             data-bs-toggle="modal"
-             data-bs-target="#imageModal{{ img.pk }}">
+        {% if user.is_staff %}
+  <img src="{{ img.image.url }}"
+       class="product-carousel__img"
+       data-bs-toggle="modal"
+       data-bs-target="#imageModal{{ img.pk }}">
+{% else %}
+  <img src="{{ img.image.url }}"
+       class="product-carousel__img"
+       style="pointer-events:none; cursor:default;">
+{% endif %}
 
         <!-- ACTION BUTTONS -->
+        {% if user.is_staff %}
         <div class="product-carousel__actions">
 
           <a href="{% url 'edit_prod_image' img.pk %}"
@@ -32,6 +39,7 @@
           </a>
 
         </div>
+        {% endif %}
 
         <!-- CAPTION -->
         {% if img.caption %}
@@ -45,6 +53,7 @@
     </div>
 
     <!-- FULLSCREEN MODAL -->
+    {% if user.is_staff %}
     <div class="modal fade" id="imageModal{{ img.pk }}" tabindex="-1">
       <div class="modal-dialog modal-fullscreen">
         <div class="modal-content bg-dark">
@@ -62,6 +71,8 @@
         </div>
       </div>
     </div>
+    {% endif %}
+
 
     {% endfor %}
 
@@ -86,11 +97,18 @@
 <!-- THUMBNAILS -->
 <div class="product-carousel__thumbs">
 
-  {% for img in product.images.all %}
+{% for img in product.images.all %}
+  {% if user.is_staff %}
     <img src="{{ img.image.url }}"
          data-bs-target="#productCarousel"
          data-bs-slide-to="{{ forloop.counter0 }}"
          class="product-thumb {% if forloop.first %}active-thumb{% endif %}">
+  {% else %}
+  <img src="{{ img.image.url }}"
+       class="product-thumb"
+       style="pointer-events:none; cursor:default; border-color:transparent !important; box-shadow:none !important; opacity:0.6;">
+  {% endif %}
+
   {% empty %}
   <p>No images uploaded yet!</p>
   {% endfor %}

@@ -1,80 +1,116 @@
 <header class="site-header sticky-top">
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid px-4 px-lg-5">
+
+            <!-- Brand -->
             <a class="navbar-brand site-brand" href="{% url 'home_page' %}">Zenova</a>
+
+            <!-- Mobile toggler -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="#navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Collapsible content -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Left nav links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home_page' %}">Home</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home_page' %}active{% endif %}"
+                            href="{% url 'home_page' %}">Home</a>
                     </li>
-                    
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            More
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'about_page' %}">About</a></li>
-                            <li><a class="dropdown-item" href="{% url 'contact_page' %}">Contact</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'product_list' %}">Products</a></li>
-                        </ul>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}"
+                            href="{% url 'product_list' %}">Products</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'accessories_list' %}active{% endif %}"
+                            href="{% url 'accessory_list' %}">Accessories</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about_page' %}active{% endif %}"
+                            href="{% url 'about_page' %}">About</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact_page' %}active{% endif %}"
+                            href="{% url 'contact_page' %}">Contact</a>
+                    </li>
+
+                    <!-- Manage dropdown (staff only) -->
                     {% if user.is_staff %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Manage
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'carousel_list' %}">Carousel</a></li>
                             <li><a class="dropdown-item" href="">Contact</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </li>
                     {% endif %}
-                    
+
+                    <!-- Account dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             {% if user.is_authenticated %}
-                            {{user.username.capitalize}}
+                                {{ user.username }}
                             {% else %}
-                            Accounts
+                                Accounts
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu">
                             {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{% url 'view_cart' %}">My Cart</a></li>
-                            <li><a class = 'dropdown-item' href="/">Past Orders</a></li>
-                            <li>
-                                <form action="{% url 'logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="dropdown-item">Logout</button>
-                                </form>
-                            </li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
                             {% else %}
-                            <li><a class="dropdown-item" href="{% url 'signin' %}">Login</a></li>
-                            <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
+                                <li><a class="dropdown-item" href="{% url 'signin' %}">Login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
                             {% endif %}
                         </ul>
                     </li>
+
                 </ul>
+                <!-- End left nav -->
+
+                <!-- Right side: icon buttons + search -->
+                <ul class="navbar-nav align-items-center gap-1 me-3">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'view_cart' %}active{% endif %}"
+                            href="{% url 'view_cart' %}" title="Cart">
+                            <i class="bi bi-cart3"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" title="Order History">
+                            <i class="bi bi-clock-history"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Search form -->
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+
             </div>
+            <!-- End collapsible -->
+
         </div>
     </nav>
 </header>

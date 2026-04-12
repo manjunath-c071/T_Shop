@@ -3,6 +3,7 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
+{% load static %}
 
 <div class="container mt-5">
     <div class="row align-items-center">
@@ -23,11 +24,10 @@
             </p>
         </div>
         <div class="col-md-6">
-            <img src="https://images.unsplash.com/photo-1510557880182-3c6b0b6f0c0c" alt="Mobile Store" class="img-fluid rounded shadow">
+            <img src="{% static 'images/about_logo.png' %}" alt="Mobile Store" class="img-fluid rounded shadow">
         </div>
     </div>
 
-```
 <hr class="my-5">
 
 <div class="row text-center">
@@ -55,7 +55,6 @@
         with quality products and excellent customer service.
     </p>
 </div>
-```
 
 </div>
 {% endblock %}
