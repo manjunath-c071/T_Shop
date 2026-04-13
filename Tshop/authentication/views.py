@@ -21,7 +21,6 @@ class UserLoginView(LoginView):
     authentication_form = UserLoginForm
 
 
-# Email otp workflow for resetting  password
 
 from .models import EmailOTP, OTP_EXPIRY_IN_MINUTES
 
@@ -63,7 +62,6 @@ def send_otp_mail (request):
                       template_name='authentication/pwd_reset/send_otp_email.html', 
                       context=context)
 
-# verifying the otp unless expired.
 
 from django.contrib.auth.models import User
 from .models import EmailOTP
@@ -91,7 +89,6 @@ def verify_otp(request):
 
     return render(request, 'authentication/pwd_reset/verify_otp.html', context)
 
-# setting new password taking the verified email from session
 
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User

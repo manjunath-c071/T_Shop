@@ -1,113 +1,156 @@
-
 {% extends 'base/base.html' %}
 
 {% block title %}
+{% if user.is_authenticated %}
 {{ user.username }}'s Cart
+{% else %}
+Cart
+{% endif %}
 {% endblock %}
+
 
 {% block content %}
 <section class="container py-5">
 
-    <h2 class="mb-4">🛒 Your Cart</h2>
+    <h2 class="fw-bold mb-4 text-center">🛒 Your Cart</h2>
+
+    {% if user.is_authenticated %}
 
     {% if cart_items %}
-    
-    <div class="card shadow-sm">
-        <div class="card-body">
 
-            <table class="table align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Product</th>
-                        <th>Image</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                        <th></th>
-                    </tr>
-                </thead>
+    <div class="row g-4">
 
-                <tbody>
-                    {% for item in cart_items %}
-                    <tr>
-                        <td>
-                            <strong>{{ item.product.title }}</strong>
-                        </td>
+        <!-- CART ITEMS -->
+        <div class="col-lg-8">
+            {% for item in cart_items %}
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                <div class="card-body">
 
-                        <td>
-                            <img src="{{ item.product.thumbnail.url }}" 
-                                 class="img-fluid rounded" 
-                                 width="80">
-                        </td>
+                    <div class="row align-items-center">
 
-                        <td>₹{{ item.product.price }}</td>
+                        <!-- IMAGE -->
+                        <div class="col-md-3 text-center">
+                            <img src="{{ item.product.thumbnail.url }}" class="img-fluid rounded-3"
+                                style="max-height:100px; object-fit:cover;">
+                        </div>
 
-                        <td>
-                            <div class="d-flex align-items-center">
+                        <!-- PRODUCT INFO -->
+                        <div class="col-md-3">
+                            <h6 class="fw-semibold mb-1">
+                                {{ item.product.title }}
+                            </h6>
+                            <small class="text-muted">
+                                ₹{{ item.product.price }}
+                            </small>
+                        </div>
 
-                                <!-- DECREASE -->
-                                <form method="post" action="" class="me-1">
+                        <!-- QUANTITY -->
+                        <div class="col-md-3">
+                            <div class="d-flex align-items-center justify-content-center">
+
+                                <form method="post" action="{% url 'update_cart' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="item_id" value="{{ item.id }}">
                                     <input type="hidden" name="action" value="decrease">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
+                                    <button class="btn btn-light border rounded-circle px-2">−</button>
                                 </form>
 
-                                <!-- VALUE -->
-                                <span class="px-3 fw-bold">
+                                <span class="fw-bold px-2">
                                     {{ item.quantity }}
                                 </span>
 
-                                <!-- INCREASE -->
-                                <form method="post" action="" class="ms-1">
+                                <form method="post" action="{% url 'update_cart' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="item_id" value="{{ item.id }}">
                                     <input type="hidden" name="action" value="increase">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
+                                    <button class="btn btn-light border rounded-circle px-2">+</button>
                                 </form>
 
                             </div>
-                        </td>
+                        </div>
 
-                        <td>
-                            ₹{{ item.sub_total }}
-                        </td>
+                        <!-- SUBTOTAL -->
+                        <div class="col-md-2 text-center">
+                            <strong>₹{{ item.sub_total }}</strong>
+                        </div>
 
-                        <td>
-                            <form method="post" action="">
+                        <!-- REMOVE -->
+                        <div class="col-md-1 text-end">
+                            <form method="post" action="{% url 'update_cart' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="item_id" value="{{ item.id }}">
                                 <input type="hidden" name="action" value="remove">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    Remove
+
+                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle">
+                                    ✕
                                 </button>
                             </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                        </div>
 
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
         </div>
-    </div>
 
-    <!-- TOTAL -->
-    <div class="d-flex justify-content-end mt-4">
-        <div class="card p-3 shadow-sm" style="width:300px;">
-            <h5>Total:</h5>
-            <h4>₹{{ total_price }}</h4>
+        <!-- SUMMARY -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 p-4 sticky-top" style="top: 20px;">
 
-            <a href="{% url 'create_order' %}" class="btn btn-success mt-3 w-100">
-                Place Order
-            </a>
+                <h5 class="fw-bold mb-3">Order Summary</h5>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal</span>
+                    <span>₹{{ total_price }}</span>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Delivery</span>
+                    <span class="text-success">Free</span>
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between fw-bold mb-3">
+                    <span>Total</span>
+                    <span>₹{{ total_price }}</span>
+                </div>
+
+                <a href="{% url 'create_order' %}" class="btn btn-dark w-100 py-2 rounded-3">
+                    Proceed to Checkout
+                </a>
+
+                <a href="{% url 'product_list' %}" class="btn btn-link text-decoration-none mt-2 w-100">
+                    Continue Shopping
+                </a>
+
+            </div>
         </div>
+
     </div>
 
     {% else %}
-    
+
+    <!-- EMPTY CART -->
     <div class="text-center py-5">
-        <h4>Your cart is empty 😕</h4>
-        <a href="/" class="btn btn-primary mt-3">Continue Shopping</a>
+        <h4 class="fw-semibold">Your cart is empty 😕</h4>
+        <p class="text-white">Looks like you haven’t added anything yet.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-dark mt-3 px-4">
+            Start Shopping
+        </a>
+    </div>
+
+    {% endif %}
+
+    {% else %}
+
+    <!-- NOT LOGGED IN -->
+    <div class="text-center py-5">
+        <h4 class="fw-semibold">Please login to view your cart 🔐</h4>
+        <a href="/login/" class="btn btn-dark mt-3 px-4">
+            Login
+        </a>
     </div>
 
     {% endif %}

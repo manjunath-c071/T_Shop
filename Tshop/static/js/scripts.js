@@ -1,3 +1,4 @@
+
 const productSection = document.querySelector('#product-section');
 const productDetailsPage = document.getElementById('product-detail-root');
 
@@ -80,7 +81,3 @@ function showToast(message, type = 'success') {
     const toast = new bootstrap.Toast(toastElement);
     toast.show();
 }
-
-
-// Optional test
-// showToast("Yuhooo");

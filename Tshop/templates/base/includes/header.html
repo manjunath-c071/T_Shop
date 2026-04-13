@@ -29,11 +29,6 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'accessories_list' %}active{% endif %}"
-                            href="{% url 'accessory_list' %}">Accessories</a>
-                    </li>
-
-                    <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'about_page' %}active{% endif %}"
                             href="{% url 'about_page' %}">About</a>
                     </li>
@@ -90,13 +85,13 @@
                 <!-- Right side: icon buttons + search -->
                 <ul class="navbar-nav align-items-center gap-1 me-3">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'view_cart' %}active{% endif %}"
-                            href="{% url 'view_cart' %}" title="Cart">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'cart_page' %}active{% endif %}"
+                            href="{% url 'cart_page' %}" title="Cart">
                             <i class="bi bi-cart3"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/" title="Order History">
+                        <a class="nav-link" href="{% url 'order_history' %}" title="Order History">
                             <i class="bi bi-clock-history"></i>
                         </a>
                     </li>

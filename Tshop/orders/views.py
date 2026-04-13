@@ -22,6 +22,7 @@ def create_order(request):
 
     # Calculate the total amount of the cart
     total_amount = sum(item.quantity * item.product.price for item in cart_items)
+    
 
     # Create an order record
     order = Order.objects.create(
